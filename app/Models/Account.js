@@ -4,6 +4,17 @@
 const Model = use('Model')
 
 class Account extends Model {
+  user () {
+    return this.belongsTo('App/Models/User')
+  }
+
+  deposits () {
+    return this.hasMany('App/Models/Deposit')
+  }
+
+  transfers () {
+    return this.hasMany('App/Models/Transfer')
+  }
 }
 
 module.exports = Account
