@@ -3,6 +3,4 @@
 /** @type {typeof import('@adonisjs/framework/src/Route/Manager')} */
 const Route = use('Route')
 
-Route.get('/', () => {
-  return { greeting: 'Hello world gopaybank' }
-});
+Route.post('/createUsers', 'UserController.store');
