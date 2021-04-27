@@ -19,6 +19,9 @@ class UserController {
    * @param {Response} ctx.response
    */
   async index ({ request, response }) {
+    const user = User.all();
+    
+    return user;
   }
 
   /**
