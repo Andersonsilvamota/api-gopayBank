@@ -18,10 +18,10 @@ class UserController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async index ({ request, response }) {
-    const user = User.all();
+  async index ({ response }) {
+    const user = await User.all();
     
-    return user;
+    return response.status(200).json(user);
   }
 
   /**
@@ -56,6 +56,7 @@ class UserController {
    * @param {Response} ctx.response
    */
   async show ({ params, request, response }) {
+    
   }
 
   /**
@@ -66,19 +67,58 @@ class UserController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async update ({ params, request, response }) {
-  }
 
-  /**
-   * Delete a user with id.
-   * DELETE users/:id
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   */
-  async destroy ({ params, request, response }) {
+
+
+
+
+
+  async update ({ request, params, response }){
+    const user = await User.findOrFail(params.id);
+    
+    const data = request.only([
+      'name',
+      'surname',
+      'email',
+      'password',
+      'cpf',
+      'phone'
+    
+   ]);
+    
+    user.merge(data);
+    await user.save();
+    return response.status(201).json(user);
+    
   }
+   //async update ({ params, request, response }) {
+  //   const user = await User.findOrFail(params.id);
+
+  //   const data = await User.request.only([
+  //     'name',
+  //     'surname',
+  //     'email',
+  //     'password',
+  //     'cpf',
+  //     'phone'
+
+  //   ])
+
+    //   console.log("CHEGUEI AQUI");
+  //   //user.merge(data);
+      
+  //   //await user.save();
+    
+  //   //return response.status(200).json(user)
+  //}
+
+  async destroy({ params }){
+    const user = await User.findOrFail(params.id);
+    
+    await user.delete();
+
+  }
+  
 }
 
 module.exports = UserController
